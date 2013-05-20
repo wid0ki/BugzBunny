@@ -14,10 +14,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    signin.cpp
+    signin.cpp \
+    profile.cpp \
+    passwordchange.cpp
 
 HEADERS  += mainwindow.h \
-    signin.h
+    signin.h \
+    profile.h \
+    passwordchange.h
 
 FORMS    += mainwindow.ui \
-    signin.ui
+    signin.ui \
+    profile.ui \
+    passwordchange.ui

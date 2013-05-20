@@ -3,6 +3,9 @@
 #include "mainwindow.h"
 #include <QMessageBox>
 #include <QSqlQuery>
+#include <QSqlError>
+#include <QtSql/QPSQLDriver>
+#include <QSqlRecord>
 #include <QCryptographicHash>
 #include <QDebug>
 
@@ -45,17 +48,12 @@ void signin::getDb(QSqlDatabase db)
 
 bool signin::isSuccess(QString email, QString pass)
 {
-    if (!db.isOpen())
-    {
-        db.open();
-    }
     QSqlQuery * query = new QSqlQuery(db);
-    query->exec("SELECT secret FROM usr WHERE email = "+QString(email)+";");
+    query->prepare("SELECT secret FROM usr WHERE email == \'de\';");
+    query->exec();
     while (query->next())
     {
-         QString secret = query->value(0).toString();
-         if (secret == QString(QCryptographicHash::hash(QString(pass+email).toUtf8(), QCryptographicHash::Md5)))
-             return true;
+        qDebug() << query->record().value(0).toString();
     }
     return false;
 }
@@ -63,17 +61,12 @@ bool signin::isSuccess(QString email, QString pass)
 bool signin::isSuccess(QString name, QString surname, QString birth, QString email,QString pass)
 {
     QSqlQuery * query = new QSqlQuery(db);
-    qDebug()<<db.isOpenError();
-    if (!db.isOpen())
-    {
-        db.open();
-    }
     query->prepare("INSERT INTO usr (name, surname, birth, email, secret) VALUES (?,?,?,?,?);");
     query->addBindValue(name);
     query->addBindValue(surname);
     query->addBindValue(birth);
     query->addBindValue(email);
-    query->addBindValue(QString(QCryptographicHash::hash(QString(pass+email).toUtf8(), QCryptographicHash::Md5)));
+    query->addBindValue(QString(QCryptographicHash::hash(QString(pass+email).toUtf8(), QCryptographicHash::Md5).toHex()));
     return query->exec();
 }
 
