@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtSql/QPSQLDriver>
 #include <QtSql/qsqldatabase.h>
+#include "mainwindow.h"
 
 namespace Ui {
 class signin;
@@ -17,12 +18,16 @@ public:
     explicit signin(QWidget *parent = 0);
     bool isSuccess(QString, QString);
     bool isSuccess(QString, QString, QString, QString,QString);
+    QString ordinaryLineEditStyle;
+    QString ordinaryButtonStyle;
     void getDb(QSqlDatabase);
+    void getMainWindow(MainWindow*);
     ~signin();
     
 private:
     Ui::signin *ui;
     QSqlDatabase db;
+    MainWindow * w;
 
 private slots:
     void auth();

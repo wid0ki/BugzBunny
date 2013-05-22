@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/background">
+        <file>grey_left.png</file>
+        <file>focus_left.png</file>
+    </qresource>
+    <qresource prefix="/icon">
+        <file>project_icon.png</file>
+        <file>group.png</file>
+        <file>task.png</file>
+        <file>comment.png</file>
+        <file>home.png</file>
+        <file>comment_white.png</file>
+        <file>group_white.png</file>
+        <file>home_white.png</file>
+        <file>task_white.png</file>
+        <file>project_white.png</file>
+        <file>project.png</file>
+    </qresource>
+</RCC>

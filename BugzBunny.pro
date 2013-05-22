@@ -14,16 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    signin.cpp \
-    profile.cpp \
-    passwordchange.cpp
+    signin.cpp
 
 HEADERS  += mainwindow.h \
-    signin.h \
-    profile.h \
-    passwordchange.h
+    signin.h
 
 FORMS    += mainwindow.ui \
-    signin.ui \
-    profile.ui \
-    passwordchange.ui
+    signin.ui
+
+RESOURCES += \
+    res.qrc
