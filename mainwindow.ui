@@ -404,6 +404,55 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
+    <widget class="QTableWidget" name="projectView">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>40</y>
+       <width>601</width>
+       <height>461</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="myProjects">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Мои проекты</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="allProjects">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>10</y>
+       <width>102</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Все проекты</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="assignProjects">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>10</y>
+       <width>171</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Назначенные проекты</string>
+     </property>
+    </widget>
    </widget>
    <zorder>frame_3</zorder>
    <zorder>frame</zorder>

@@ -1,7 +1,33 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "signin.h"
+#include "addproject.h"
 #include <QDebug>
+#include <QTableWidget>
+
+int MainWindow::getUserId()
+{
+    QSqlQuery * query = new QSqlQuery(db);
+    db.open();
+    query->prepare("SELECT id FROM user WHERE email='"+session.value("email").toString()+"'';");
+    qDebug()<<query->exec()<<" "<<query->lastError().text();
+    return query->record().value("id").toInt();
+}
+
+QList<int> MainWindow::getAssignedProject ()
+{
+    QList<int> results;
+    QSqlQuery * query = new QSqlQuery(db);
+    db.open();
+    query->prepare("SELECT id_project FROM entity2project WHERE id_entity=?;");
+    query->addBindValue(getUserId());
+    qDebug()<<query->exec()<<" "<<query->lastError().text();
+    while (query->next())
+    {
+        results.append(query->value("id").toInt());
+    }
+    return results;
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -97,6 +123,8 @@ MainWindow::MainWindow(QWidget *parent) :
                      "color: white;"
                  "}");
 
+    drawProfile();
+
     connect(ui->profileButton, SIGNAL(clicked()), this, SLOT(drawProfile()));
     connect(ui->projectButton, SIGNAL(clicked()), this, SLOT(drawProject()));
     connect(ui->taskButton, SIGNAL(clicked()),this, SLOT(drawTask()));
@@ -135,7 +163,7 @@ void MainWindow::drawProfile()
 
 void MainWindow::drawComment()
 {
-    hideEverything(4);
+    hideEverything(6);
     unDownEverything(1);
     ui->commentButton->setDown(true);
 }
@@ -147,13 +175,85 @@ void MainWindow::drawTask()
     ui->taskButton->setDown(true);
 }
 
+void MainWindow::projectOpen()
+{
+
+}
+
 void MainWindow::drawProject()
 {
-    hideEverything(6);
+    hideEverything(4);
     unDownEverything(4);
     ui->projectButton->setDown(true);
     ui->title->setText(QString::fromUtf8("Проекты"));
     ui->rightButton->setText("Новый проект");
+    ui->projectView->show();
+    ui->projectView->verticalHeader()->hide();
+    ui->projectView->horizontalHeader()->hide();
+
+    int rowCount = 0;
+    QSqlQuery query;
+    QVariantMap data;
+    QList<QVariantMap> model;
+
+    if (db.open())
+    {
+        if (ui->assignProjects->isChecked())
+        {
+            QList<int> assignedId = getAssignedProject();
+            for (int i = 0; i < assignedId.length(); i++)
+            {
+                query = db.exec("SELECT * FROM project WHERE id = ?;");
+                query.addBindValue(assignedId.at(i));
+                while (query.next())
+                {
+                    data.insert("name", query.value("name").toString());
+                    data.insert("backlog", query.value("backlog").toString());
+                    model.append(data);
+                    data.clear();
+                }
+                rowCount++;
+            }
+            ui->statusBar->showMessage("Просмотр всех проектов в трекере", 1000);
+        }
+        else
+            if (ui->myProjects->isChecked())
+            {
+                QSqlQuery query = db.exec("SELECT * FROM project WHERE ;");
+                while (query.next())
+                {
+                    //read data
+                    rowCount++;
+                }
+                ui->statusBar->showMessage("Просмотр назначенных мне проектов в трекере", 1000);
+            }
+            else
+            {
+                QSqlQuery query = db.exec("SELECT * FROM project;");
+                while (query.next())
+                {
+                    //read data
+                    rowCount++;
+                }
+                ui->statusBar->showMessage("Просмотр всех проектов в трекере", 1000);
+            }
+    }
+    db.close();
+
+    ui->projectView->setRowCount(rowCount);
+    ui->projectView->setColumnCount(2);
+    ui->projectView->setColumnWidth(0, 25);
+    ui->projectView->setColumnWidth(1, 576);
+
+    for (int i = 0; i < rowCount; i++)
+    {
+        QTableWidgetItem * item = new QTableWidgetItem;
+        item->setText(model.at(i).value("name").toString()+"\n"+model.at(i).value("backlog").toString());
+        ui->projectView->setItem(i,1,item);
+    }
+
+//    QTableWidgetItem *item = new QTableWidgetItem(tr("Cubes"));
+//    cubesHeaderItem->setIcon(QIcon(QPixmap(":/Images/cubed.png")));
 }
 
 void MainWindow::drawGroup()
@@ -245,7 +345,10 @@ void MainWindow::exit()
     }
     else if (ui->rightButton->text() == "Новый проект")
     {
-
+        addproject * addProjectWindow = new addproject;
+        addProjectWindow->getSessionEmail(session);
+        addProjectWindow->getDb(db);
+        addProjectWindow->show();
     }
 }
 

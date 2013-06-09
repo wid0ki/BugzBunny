@@ -10,11 +10,11 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     MainWindow w;
-    w.show();
-//    w.hide();
+//    w.show();
+    w.hide();
 
-//    signin authorization;
-//    authorization.show();
+    signin authorization;
+    authorization.show();
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL", "postgres");
     db.setHostName("localhost");
@@ -22,8 +22,8 @@ int main(int argc, char *argv[])
     db.setUserName("postgres");
     db.setPassword("12345");
     w.getDb(db);
-//    authorization.getDb(db);
-//    authorization.getMainWindow(&w);
+    authorization.getDb(db);
+    authorization.getMainWindow(&w);
 
     
     return a.exec();

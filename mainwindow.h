@@ -43,6 +43,9 @@ private slots:
     void unDownEverything(int);
     void saveProfile();
     void savePass();
+    void projectOpen();
+    QList<int> getAssignedProject();
+    int getUserId();
     void exit();
 };
 

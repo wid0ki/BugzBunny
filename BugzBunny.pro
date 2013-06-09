@@ -14,13 +14,19 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    signin.cpp
+    signin.cpp \
+    addproject.cpp \
+    projectviewer.cpp
 
 HEADERS  += mainwindow.h \
-    signin.h
+    signin.h \
+    addproject.h \
+    projectviewer.h
 
 FORMS    += mainwindow.ui \
-    signin.ui
+    signin.ui \
+    addproject.ui \
+    projectviewer.ui
 
 RESOURCES += \
     res.qrc
