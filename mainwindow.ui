@@ -158,9 +158,9 @@
     <widget class="QPushButton" name="rightButton">
      <property name="geometry">
       <rect>
-       <x>470</x>
+       <x>440</x>
        <y>10</y>
-       <width>121</width>
+       <width>151</width>
        <height>31</height>
       </rect>
      </property>
@@ -173,7 +173,7 @@
       <rect>
        <x>20</x>
        <y>10</y>
-       <width>441</width>
+       <width>401</width>
        <height>31</height>
       </rect>
      </property>
@@ -419,40 +419,47 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>111</width>
+       <width>181</width>
        <height>20</height>
       </rect>
      </property>
      <property name="text">
       <string>Мои проекты</string>
      </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
     </widget>
     <widget class="QRadioButton" name="allProjects">
      <property name="geometry">
       <rect>
-       <x>330</x>
+       <x>200</x>
        <y>10</y>
-       <width>102</width>
-       <height>20</height>
+       <width>161</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="text">
       <string>Все проекты</string>
      </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
     </widget>
-    <widget class="QRadioButton" name="assignProjects">
+    <widget class="QTableWidget" name="projectView_2">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>171</width>
-       <height>20</height>
+       <x>0</x>
+       <y>40</y>
+       <width>601</width>
+       <height>461</height>
       </rect>
      </property>
-     <property name="text">
-      <string>Назначенные проекты</string>
-     </property>
     </widget>
+    <zorder>myProjects</zorder>
+    <zorder>allProjects</zorder>
+    <zorder>projectView</zorder>
+    <zorder>projectView_2</zorder>
    </widget>
    <zorder>frame_3</zorder>
    <zorder>frame</zorder>

@@ -16,17 +16,26 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     signin.cpp \
     addproject.cpp \
-    projectviewer.cpp
+    projectviewer.cpp \
+    addgroup.cpp \
+    addtask.cpp \
+    addcomment.cpp
 
 HEADERS  += mainwindow.h \
     signin.h \
     addproject.h \
-    projectviewer.h
+    projectviewer.h \
+    addgroup.h \
+    addtask.h \
+    addcomment.h
 
 FORMS    += mainwindow.ui \
     signin.ui \
     addproject.ui \
-    projectviewer.ui
+    projectviewer.ui \
+    addgroup.ui \
+    addtask.ui \
+    addcomment.ui
 
 RESOURCES += \
     res.qrc

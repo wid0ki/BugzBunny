@@ -99,14 +99,9 @@ void addproject::createProject()
         qDebug()<<ui->lineEdit->text()<<" "<<ui->textBrowser->toPlainText();
         if (ui->checkBox->isChecked())
         {
-            QSqlQuery * subquery = new QSqlQuery(db);
-            subquery->prepare("SELECT id FROM project WHERE name = '"+ui->comboBox_2->currentText()+"';");
-            qDebug()<<subquery->exec();
-            int id_parent = subquery->record().value("id").toInt();
-            query->prepare("INSERT INTO project (id,name, backlog, id_parent) VALUES (DEFAULT,?,?,?);");
+            query->prepare("INSERT INTO project (id, name, backlog, id_parent) VALUES (DEFAULT,?,?,"+QString::number(getProjectId(ui->comboBox_2->currentText()))+");");
             query->addBindValue(ui->lineEdit->text());
             query->addBindValue(ui->textBrowser->toPlainText());
-            query->addBindValue(id_parent);
         }
         else
         {
@@ -114,12 +109,11 @@ void addproject::createProject()
             query->addBindValue(ui->lineEdit->text());
             query->addBindValue(ui->textBrowser->toPlainText());
         }
-        qDebug()<<query->exec()<<" "<<query->lastError().text();
+        qDebug()<<"Insert into prj "<<query->exec()<<" "<<query->lastError().text();
 
-        query->prepare("INSERT INTO entity2project (id_project, type_e, id_entity) VALUES (?,'user',?);");
-        query->addBindValue(getProjectId(ui->lineEdit->text()));
-        query->addBindValue(getUserId(session));
-        qDebug()<<query->exec()<<" "<<query->lastError().text();
+        query->prepare("INSERT INTO entity2project (id_project, type_e, id_entity) VALUES ("+QString::number(getProjectId(ui->lineEdit->text()))+
+                       ",'user',"+QString::number(getUserId(session))+");");
+        qDebug()<<"Insert into e2p "<<query->exec()<<" "<<query->lastError().text();
 
     }
     db.close();
@@ -130,8 +124,10 @@ int addproject::getProjectId(QString projectName)
 {
     QSqlQuery * query = new QSqlQuery(db);
     db.open();
-    query->prepare("SELECT id FROM project WHERE name='"+projectName+"'';");
-    qDebug()<<query->exec()<<" "<<query->lastError().text();
+    query->prepare("SELECT id FROM project WHERE name='"+projectName+"';");
+    qDebug()<<"PROJECT ID: "<<query->exec()<<" "<<query->lastError().text();
+    query->next();
+    qDebug()<<query->record().value("id").toInt();
     return query->record().value("id").toInt();
 }
 
@@ -139,8 +135,9 @@ int addproject::getUserId(QVariantMap session)
 {
     QSqlQuery * query = new QSqlQuery(db);
     db.open();
-    query->prepare("SELECT id FROM user WHERE email='"+session.value("email").toString()+"'';");
-    qDebug()<<query->exec()<<" "<<query->lastError().text();
+    query->prepare("SELECT id FROM usr WHERE email='"+session.value("email").toString()+"';");
+    qDebug()<<"USER ID: "<<query->exec()<<" "<<session.value("email").toString()<<" "<<query->lastError().text();
+    query->next();
     return query->record().value("id").toInt();
 }
 

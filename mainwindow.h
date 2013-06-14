@@ -25,6 +25,8 @@ public:
     QVariantMap session;
     void getDb(QSqlDatabase);
     QSqlDatabase db;
+    QList<QVariantMap> model;
+    int rowCount;
     ~MainWindow();
 
 private:
@@ -44,9 +46,19 @@ private slots:
     void saveProfile();
     void savePass();
     void projectOpen();
-    QList<int> getAssignedProject();
+    void myProjects();
+    void allProjects();
+    void allTasks();
+    void myTasks();
+    void allGroups();
+    void myGroups();
+    void allComments();
+    void myComments();
     int getUserId();
     void exit();
+    void manageLeftRadioButton();
+    void manageRightRadioButton();
+    void MVC();
 };
 
 #endif // MAINWINDOW_H
